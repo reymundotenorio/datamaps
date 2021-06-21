@@ -274,7 +274,7 @@
           var $this = d3.select(this);
 
           if ( options.popupOnClick ) {
-            self.updatePopup($this, d, options, svg);
+            self.updatePopupOnClick($this, d, options, svg);
           }
         })
         .on('mouseout', function() {
@@ -479,7 +479,7 @@
           var $this = d3.select(this);
 
           if (options.popupOnClick) {
-            self.updatePopup($this, datum, options, svg);
+            self.updatePopupOnClick($this, datum, options, svg);
           }
         })
         .on('mouseout', function ( datum ) {
@@ -668,7 +668,7 @@
           var $this = d3.select(this);
 
           if (options.popupOnClick) {
-            self.updatePopup($this, datum, options, svg);
+            self.updatePopupOnClick($this, datum, options, svg);
           }
         })
         .on('mouseout', function ( datum ) {
@@ -1175,6 +1175,26 @@
         })
         .style('left', ( position[0]) + "px");
     });
+
+    d3.select(self.svg[0][0].parentNode).select('.datamaps-hoverover').style('display', 'block');
+  };
+
+  Datamap.prototype.updatePopupOnClick = function (element, d, options) {
+    var self = this;
+  
+    var position = d3.mouse(self.options.element);
+    d3.select(self.svg[0][0].parentNode).select('.datamaps-hoverover')
+      .style('top', ( (position[1] + 30)) + "px")
+      .html(function() {
+        var data = JSON.parse(element.attr('data-info'));
+        try {
+          return options.popupTemplate(d, data);
+        } catch (e) {
+          return "";
+        }
+      })
+      .style('left', ( position[0]) + "px");
+
 
     d3.select(self.svg[0][0].parentNode).select('.datamaps-hoverover').style('display', 'block');
   };
