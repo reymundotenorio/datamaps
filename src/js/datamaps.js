@@ -28,6 +28,7 @@
           return '<div class="hoverinfo"><strong>' + geography.properties.name + '</strong></div>';
         },
         popupOnHover: true,
+        popupOnClick: true,
         highlightOnHover: true,
         highlightFillColor: '#FC8D59',
         highlightBorderColor: 'rgba(250, 15, 160, 0.2)',
@@ -238,7 +239,7 @@
     var self = this;
     var options = this.options.geographyConfig;
 
-    if ( options.highlightOnHover || options.popupOnHover ) {
+    if ( options.highlightOnHover || options.popupOnHover || options.popupOnClick ) {
       svg.selectAll('.datamaps-subunit')
         .on('mouseover', function(d) {
           var $this = d3.select(this);
@@ -266,6 +267,10 @@
           }
 
           if ( options.popupOnHover ) {
+            self.updatePopup($this, d, options, svg);
+          }
+
+          if ( options.popupOnClick ) {
             self.updatePopup($this, d, options, svg);
           }
         })
@@ -467,6 +472,13 @@
             self.updatePopup($this, datum, options, svg);
           }
         })
+        .on('click', function ( datum ) {
+          var $this = d3.select(this);
+
+          if (options.popupOnClick) {
+            self.updatePopup($this, datum, options, svg);
+          }
+        })
         .on('mouseout', function ( datum ) {
           var $this = d3.select(this);
 
@@ -646,6 +658,13 @@
           }
 
           if (options.popupOnHover) {
+            self.updatePopup($this, datum, options, svg);
+          }
+        })
+        .on('click', function ( datum ) {
+          var $this = d3.select(this);
+
+          if (options.popupOnClick) {
             self.updatePopup($this, datum, options, svg);
           }
         })
