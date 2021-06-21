@@ -28,6 +28,7 @@
           return '<div class="hoverinfo"><strong>' + geography.properties.name + '</strong></div>';
         },
         popupOnHover: true,
+        popupOnClick: true,
         highlightOnHover: true,
         highlightFillColor: '#FC8D59',
         highlightBorderColor: 'rgba(250, 15, 160, 0.2)',
@@ -238,9 +239,10 @@
     var self = this;
     var options = this.options.geographyConfig;
 
-    if ( options.highlightOnHover || options.popupOnHover ) {
+    if ( options.highlightOnHover || options.popupOnHover || options.popupOnClick ) {
       svg.selectAll('.datamaps-subunit')
         .on('mouseover', function(d) {
+          alert("Entro 1");
           var $this = d3.select(this);
           var datum = self.options.data[d.id] || {};
           if ( options.highlightOnHover ) {
@@ -266,6 +268,10 @@
           }
 
           if ( options.popupOnHover ) {
+            self.updatePopup($this, d, options, svg);
+          }
+
+          if ( options.popupOnClick ) {
             self.updatePopup($this, d, options, svg);
           }
         })
@@ -382,6 +388,9 @@
                    case "CHL":
                        originXY = self.latLngToXY(-33.448890, -70.669265);
                        break;
+                   case "HRV":
+                       originXY = self.latLngToXY(45.815011, 15.981919);
+                       break;
                    case "IDN":
                        originXY = self.latLngToXY(-6.208763, 106.845599);
                        break;
@@ -409,11 +418,14 @@
 
             if (typeof datum.destination === 'string') {
               switch (datum.destination) {
-                     case "CAN":
+                    case "CAN":
                         destXY = self.latLngToXY(56.624472, -114.665293);
                         break;
                     case "CHL":
                         destXY = self.latLngToXY(-33.448890, -70.669265);
+                        break;
+                    case "HRV":
+                        destXY = self.latLngToXY(45.815011, 15.981919);
                         break;
                     case "IDN":
                         destXY = self.latLngToXY(-6.208763, 106.845599);
@@ -455,9 +467,17 @@
           return JSON.stringify(datum);
         })
         .on('mouseover', function ( datum ) {
+          alert("Entro 2");
           var $this = d3.select(this);
 
           if (options.popupOnHover) {
+            self.updatePopup($this, datum, options, svg);
+          }
+        })
+        .on('click', function ( datum ) {
+          var $this = d3.select(this);
+
+          if (options.popupOnClick) {
             self.updatePopup($this, datum, options, svg);
           }
         })
@@ -496,6 +516,9 @@
     this.svg.selectAll(".datamaps-subunit")
       .attr("data-foo", function(d) {
         var center = self.path.centroid(d);
+        if ( d.properties.iso === 'USA' ) {
+            center = self.projection([-98.58333, 39.83333])
+        }
         var xOffset = 7.5, yOffset = 5;
 
         if ( ["FL", "KY", "MI"].indexOf(d.id) > -1 ) xOffset = -2.5;
@@ -616,6 +639,7 @@
           return fillColor || fillData.defaultFill;
         })
         .on('mouseover', function ( datum ) {
+          alert("Entro 3");
           var $this = d3.select(this);
 
           if (options.highlightOnHover) {
@@ -637,6 +661,13 @@
           }
 
           if (options.popupOnHover) {
+            self.updatePopup($this, datum, options, svg);
+          }
+        })
+        .on('click', function ( datum ) {
+          var $this = d3.select(this);
+
+          if (options.popupOnClick) {
             self.updatePopup($this, datum, options, svg);
           }
         })

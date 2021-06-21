@@ -242,7 +242,7 @@
     if ( options.highlightOnHover || options.popupOnHover || options.popupOnClick ) {
       svg.selectAll('.datamaps-subunit')
         .on('mouseover', function(d) {
-alert("Entro 1");
+          alert("Entro 1");
           var $this = d3.select(this);
           var datum = self.options.data[d.id] || {};
           if ( options.highlightOnHover ) {
@@ -467,7 +467,7 @@ alert("Entro 1");
           return JSON.stringify(datum);
         })
         .on('mouseover', function ( datum ) {
-alert("Entro 2");
+          alert("Entro 2");
           var $this = d3.select(this);
 
           if (options.popupOnHover) {
@@ -639,7 +639,7 @@ alert("Entro 2");
           return fillColor || fillData.defaultFill;
         })
         .on('mouseover', function ( datum ) {
-alert("Entro 3");
+          alert("Entro 3");
           var $this = d3.select(this);
 
           if (options.highlightOnHover) {
