@@ -288,7 +288,7 @@
             }
           }
           $this.on('mousemove', null);
-          d3.selectAll('.datamaps-hoverover').style('display', 'none');
+          // d3.selectAll('.datamaps-hoverover').style('display', 'none');
         });
     }
 
@@ -483,9 +483,9 @@
           }
         })
         .on('mouseout', function ( datum ) {
-          var $this = d3.select(this);
+          // var $this = d3.select(this);
 
-          d3.selectAll('.datamaps-hoverover').style('display', 'none');
+          // d3.selectAll('.datamaps-hoverover').style('display', 'none');
         })
         .transition()
           .delay(100)
@@ -682,7 +682,7 @@
             }
           }
 
-          d3.selectAll('.datamaps-hoverover').style('display', 'none');
+          // d3.selectAll('.datamaps-hoverover').style('display', 'none');
         })
 
     bubbles.transition()
