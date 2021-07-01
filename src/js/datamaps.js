@@ -258,6 +258,10 @@
               .style('fill-opacity', val(datum.highlightFillOpacity, options.highlightFillOpacity, datum))
               .attr('data-previousAttributes', JSON.stringify(previousAttributes));
 
+              if($this.style('fill') !== "rgb(153, 153, 153)"){
+                $this.style('cursor', 'pointer');
+              }
+
             // As per discussion on https://github.com/markmarkoh/datamaps/issues/19
             if (!/((MSIE)|(Trident))/.test(navigator.userAgent)) {
               moveToFront.call(this);
