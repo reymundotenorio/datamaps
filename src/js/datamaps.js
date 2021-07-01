@@ -1183,38 +1183,25 @@
     popup.style('display', 'block');
 
     var popupWidth = 0;
-    var popupHeight = 0;
 
     if (popup.node() instanceof SVGElement) {
       popupWidth = popup.node().getBBox().width;
-      popupHeight = popup.node().getBBox().height;
     } else {
       popupWidth = popup.node().getBoundingClientRect().width;
-      popupHeight = popup.node().getBoundingClientRect().height;
     }
 
     var mapContainerWidth = 0;
-    var mapContainerHeight = 0;
 
     if (mapContainer.node() instanceof SVGElement) {
       mapContainerWidth = mapContainer.node().getBBox().width;
-      mapContainerHeight = mapContainer.node().getBBox().height;
     } else {
       mapContainerWidth = mapContainer.node().getBoundingClientRect().width;
-      mapContainerHeight = mapContainer.node().getBoundingClientRect().height;
     }
 
-    if (popupWidth !== 0 && popupHeight !== 0 && mapContainerWidth !== 0 && mapContainerHeight !== 0) {
+    if (popupWidth !== 0 && mapContainerWidth !== 0) {
       var leftPosition = position[0] + popupWidth + 15 < mapContainerWidth ? position[0] + 15 + 'px' : mapContainerWidth - 60 - popupWidth + 'px';
 
-      var topPosition = position[1] + popupHeight + 30 < mapContainerHeight ? position[1] + 30 + 'px' : mapContainerHeight + 5 - popupHeight + 'px';
-
-      console.log(position[1]);
-      console.log(popupHeight);
-      console.log(mapContainerHeight);
-      console.log(position[1] + popupHeight + 30 < mapContainerHeight);
-
-      popup.style('top', topPosition).style('left', leftPosition);
+      popup.style('left', leftPosition);
     }
   };
 
