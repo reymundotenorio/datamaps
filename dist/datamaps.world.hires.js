@@ -258,9 +258,9 @@
               .style('fill-opacity', val(datum.highlightFillOpacity, options.highlightFillOpacity, datum))
               .attr('data-previousAttributes', JSON.stringify(previousAttributes));
 
-              if($this.style('fill') !== "rgb(153, 153, 153)"){
-                $this.style('cursor', 'pointer');
-              }
+            if ($this.style('fill') !== 'rgb(153, 153, 153)') {
+              $this.style('cursor', 'pointer');
+            }
 
             // As per discussion on https://github.com/markmarkoh/datamaps/issues/19
             if (!/((MSIE)|(Trident))/.test(navigator.userAgent)) {
@@ -276,7 +276,7 @@
           var $this = d3.select(this);
 
           if (options.popupOnClick) {
-            self.updatePopupOnClick($this, d, options, svg);
+            self.updatePopup($this, d, options, svg);
           }
         })
         .on('mouseout', function () {
@@ -478,7 +478,7 @@
         var $this = d3.select(this);
 
         if (options.popupOnClick) {
-          self.updatePopupOnClick($this, datum, options, svg);
+          self.updatePopup($this, datum, options, svg);
         }
       })
       .on('mouseout', function (datum) {
@@ -662,7 +662,7 @@
         var $this = d3.select(this);
 
         if (options.popupOnClick) {
-          self.updatePopupOnClick($this, datum, options, svg);
+          self.updatePopup($this, datum, options, svg);
         }
       })
       .on('mouseout', function (datum) {
@@ -1144,28 +1144,6 @@
 
   Datamap.prototype.updatePopup = function (element, d, options) {
     var self = this;
-    element.on('mousemove', null);
-    element.on('mousemove', function () {
-      var position = d3.mouse(self.options.element);
-      d3.select(self.svg[0][0].parentNode)
-        .select('.datamaps-hoverover')
-        .style('top', position[1] + 30 + 'px')
-        .html(function () {
-          var data = JSON.parse(element.attr('data-info'));
-          try {
-            return options.popupTemplate(d, data);
-          } catch (e) {
-            return '';
-          }
-        })
-        .style('left', position[0] + 'px');
-    });
-
-    d3.select(self.svg[0][0].parentNode).select('.datamaps-hoverover').style('display', 'block');
-  };
-
-  Datamap.prototype.updatePopupOnClick = function (element, d, options) {
-    var self = this;
 
     var position = d3.mouse(self.options.element);
 
@@ -1188,25 +1166,36 @@
     popup.style('display', 'block');
 
     var popupWidth = 0;
+    var popupHeight = 0;
 
     if (popup.node() instanceof SVGElement) {
       popupWidth = popup.node().getBBox().width;
+      popupHeight = popup.node().getBBox().height;
     } else {
       popupWidth = popup.node().getBoundingClientRect().width;
+      popupHeight = popup.node().getBoundingClientRect().height;
     }
 
     var mapContainerWidth = 0;
+    var mapContainerHeight = 0;
 
     if (mapContainer.node() instanceof SVGElement) {
       mapContainerWidth = mapContainer.node().getBBox().width;
+      mapContainerHeight = mapContainer.node().getBBox().height;
     } else {
       mapContainerWidth = mapContainer.node().getBoundingClientRect().width;
+      mapContainerHeight = mapContainer.node().getBoundingClientRect().height;
     }
 
     if (popupWidth !== 0 && mapContainerWidth !== 0) {
       var leftPosition = position[0] + popupWidth + 15 < mapContainerWidth ? position[0] + 15 + 'px' : mapContainerWidth - 60 - popupWidth + 'px';
-
       popup.style('left', leftPosition);
+    }
+
+    if (popupHeight !== 0 && mapContainerHeight !== 0) {
+      var topPosition = position[1] + popupHeight + 30 < mapContainerHeight ? position[1] + 15 + 'px' : mapContainerHeight - 30 - popupHeight + 'px';
+
+      popup.style('top', topPosition);
     }
   };
 
