@@ -294,9 +294,11 @@
           }
           // $this.on('mousemove', null);
 
-          if (self.openOnHover) {
-            d3.selectAll('.datamaps-hoverover').style('display', 'none');
-          }
+          setTimeout(function () {
+            if (self.openOnHover) {
+              d3.selectAll('.datamaps-hoverover').style('display', 'none');
+            }
+          }, 2500);
         });
     }
 
