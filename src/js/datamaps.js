@@ -235,6 +235,7 @@
     var svg = this.svg;
     var self = this;
     var options = this.options.geographyConfig;
+    var openOnHover = true;
 
     if (options.highlightOnHover || options.popupOnHover || options.popupOnClick) {
       svg
@@ -269,6 +270,7 @@
           }
 
           if (options.popupOnHover) {
+            openOnHover = true;
             self.updatePopup($this, d, options, svg);
           }
         })
@@ -276,7 +278,8 @@
           var $this = d3.select(this);
 
           if (options.popupOnClick) {
-            self.updatePopup($this, d, options, svg);
+            openOnHover = false;
+            self.updatePopup($this, d, options, svg,);
           }
         })
         .on('mouseout', function () {
@@ -289,8 +292,11 @@
               $this.style(attr, previousAttributes[attr]);
             }
           }
-          $this.on('mousemove', null);
-          // d3.selectAll('.datamaps-hoverover').style('display', 'none');
+          // $this.on('mousemove', null);
+
+          if (openOnHover) {
+            d3.selectAll('.datamaps-hoverover').style('display', 'none');
+          }
         });
     }
 
