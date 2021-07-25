@@ -1,5 +1,6 @@
 (function () {
   var svg;
+  var openOnHover = true;
 
   // Save off default references
   var d3 = window.d3,
@@ -269,6 +270,7 @@
           }
 
           if (options.popupOnHover) {
+            self.openOnHover = true;
             self.updatePopup($this, d, options, svg);
           }
         })
@@ -276,6 +278,7 @@
           var $this = d3.select(this);
 
           if (options.popupOnClick) {
+            self.openOnHover = false;
             self.updatePopup($this, d, options, svg);
           }
         })
@@ -289,8 +292,11 @@
               $this.style(attr, previousAttributes[attr]);
             }
           }
-          $this.on('mousemove', null);
-          // d3.selectAll('.datamaps-hoverover').style('display', 'none');
+          // $this.on('mousemove', null);
+
+          if (self.openOnHover) {
+            d3.selectAll('.datamaps-hoverover').style('display', 'none');
+          }
         });
     }
 
