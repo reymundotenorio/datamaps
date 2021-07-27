@@ -1,6 +1,7 @@
 (function () {
   var svg;
   var openOnHover = true;
+  var resizeId = 0;
 
   // Save off default references
   var d3 = window.d3,
@@ -270,6 +271,8 @@
           }
 
           if (options.popupOnHover) {
+            clearTimeout(self.resizeId);
+            
             self.openOnHover = true;
             self.updatePopup($this, d, options, svg);
           }
@@ -294,7 +297,9 @@
           }
           // $this.on('mousemove', null);
 
-          setTimeout(function () {
+          clearTimeout(self.resizeId);
+          
+          self.resizeId = setTimeout(function () {
             if (self.openOnHover) {
               d3.selectAll('.datamaps-hoverover').style('display', 'none');
             }
